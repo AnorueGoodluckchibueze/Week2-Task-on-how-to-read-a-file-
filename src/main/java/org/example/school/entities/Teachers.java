@@ -1,5 +1,8 @@
 package org.example.school.entities;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.school.Courses;
 import org.example.school.User;
 
@@ -10,8 +13,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 
-public class Teachers extends User {
+public class Teachers extends Staff {
     public static List<Teachers> readExcelFile(String filePath, String sheetName) {
         List<Teachers> teachers = new ArrayList<>();
         try (BufferedReader buffReader =new BufferedReader(new FileReader(filePath))){
@@ -22,7 +29,7 @@ public class Teachers extends User {
                     firstline = false;
                      continue;
                 }
-                String[] values = line.split(",",-1);
+                String[] values = line.split(",");
                 for (int i = 0; i< values.length; i++){
                     if(values[i].isBlank()){
                         values[i]=null;
@@ -45,40 +52,12 @@ public class Teachers extends User {
         return teachers;
     }
 
+
     private String academicPosition;
     private Courses courses;
     private String teachersIdNo;
 
-    public void setTeachersIdNo(String teachersIdNo) {
-        this.teachersIdNo = teachersIdNo;
-    }
-
-    public String getAcademicPosition() {
-        return academicPosition;
-    }
-
-    public void setAcademicPosition(String academicPosition) {
-        this.academicPosition = academicPosition;
-    }
-
-    public Courses getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Courses courses) {
-        this.courses = courses;
-    }
-
-    public String getTeachersIdNo() {
-        return teachersIdNo;
-    }
-
-    @Override
-    public String toString() {
-        return "Teachers{" +
-                "academicPosition='" + academicPosition + '\'' +
-                ", courses=" + courses +
-                ", teachersIdNo='" + teachersIdNo + '\'' +
-                '}';
+    public boolean isTeacher() {
+        return true;
     }
 }

@@ -11,8 +11,9 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 
-public class SchoolServiceImpl  implements SchoolService {
+ public class SchoolServiceImpl  implements SchoolService {
     public static List<Student> admittedStudents =  new ArrayList<>();
+
     public List<Student> studentTaughtToday = new ArrayList<>();
     public static HashMap<Student, List<Courses>> electedCourses = new HashMap<>();
     public static HashMap<LocalDateTime, Courses> courseRegister = new HashMap<>();

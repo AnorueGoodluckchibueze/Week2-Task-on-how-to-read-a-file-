@@ -1,15 +1,20 @@
 package org.example.school;
 
-import org.example.school.entities.Teachers;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.example.school.enums.Role;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Student extends User {
     private String studentRegistrationNo;
     private String DegreeProgram;
@@ -21,100 +26,37 @@ public class Student extends User {
     private int grades;
 
 
-    public String getGuardianEmail1() {
-        return guardianEmail1;
-    }
-
-    public void setGuardianEmail1(String guardianEmail1) {
-        this.guardianEmail1 = guardianEmail1;
-    }
-
-    public String getGuardianEmail2() {
-        return guardianEmail2;
-    }
-
-    public void setGuardianEmail2(String guardianEmail2) {
-        this.guardianEmail2 = guardianEmail2;
-    }
-
-    public String getStudentRegistrationNo() {
-        return studentRegistrationNo;
-    }
-
-    public void setStudentRegistrationNo(String studentRegistrationNo) {
-        this.studentRegistrationNo = studentRegistrationNo;
-    }
-
-    public String getDegreeProgram() {
-        return DegreeProgram;
-    }
-
-    public void setDegreeProgram(String degreeProgram) {
-        DegreeProgram = degreeProgram;
-    }
-
-    public int getYearLevel() {
-        return yearLevel;
-    }
-
-    public void setYearLevel(int yearLevel) {
-        this.yearLevel = yearLevel;
-    }
-
-    public String getEntryType() {
-        return entryType;
-    }
-
-    public void setEntryType(String entryType) {
-        this.entryType = entryType;
-    }
-
-    public String getStudentIdNo() {
-        return studentIdNo;
-    }
-
-    public void setStudentIdNo(String studentIdNo) {
-        this.studentIdNo = studentIdNo;
-    }
-
-    public int getGrades() {
-        return grades;
-    }
-
-    public void setGrades(int grades) {
-        this.grades = grades;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "studentRegistrationNo='" + studentRegistrationNo + '\'' +
-                ", DegreeProgram='" + DegreeProgram + '\'' +
-                ", yearLevel=" + yearLevel +
-                ", entryType='" + entryType + '\'' +
-                ", studentIdNo='" + studentIdNo + '\'' +
-                ", guardianEmail1='" + guardianEmail1 + '\'' +
-                ", guardianEmail2='" + guardianEmail2 + '\'' +
-                ", grades=" + grades +
-                '}';
-    }
-
+  // metod declaration
     public static List<Student> readExcel(String pathname, String sheetName) {
+       // array list of student object
         List<Student> student = new ArrayList<>();
+        // try a (risky task) create a buffered reader that reads from file
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(pathname))) {
+          //  string variable declearation
             String read;
+            // boolean variable declearation
             boolean firstline = true;
-            while ((read = bufferedReader.readLine()) != null)
-            {if (firstline) {
+            // loop initiation, reads line from file until no more lines to read
+            while ((read = bufferedReader.readLine()) != null) {
+                // check if the firstline is true
+                if (firstline) {
+                    // set firstline to false so other lines wont be skipped
                 firstline = false;
+                // skips the current iteration move to the next line also ignores the first line
                 continue;
             }
+                // split the aline after reading into an array
                 String[] std = read.split(",");
+                // iterates through the elements of the student array
                 for (int i = 0; i< std.length; i++){
+                    //check if the element is blank
                     if(std[i].isBlank()){
+                        // set the element to null
                         std[i]=null;
                     }
                 }
+                // if the length is 7 a new student object is created and populatedwith data from the student array
+                // then add to student listand print
                 if (std.length == 7) {
                     Student student1 = new Student();
                     student1.setStudentIdNo(std[0].trim());
@@ -128,7 +70,9 @@ public class Student extends User {
                     System.out.println("Student ID:    "  +  student1.getStudentIdNo() + ",       FirstName:      " + student1.getFirstName() +  " ,     LastName:    " +  student1.getLastName() +" ,      GradeLevel:     " +  student1.getGrades() + ",      Email:    " + student1.getEmail() + " , GuardianEmail:    "+ student1.getGuardianEmail1() + " ,      GuardianEmail2:    " + student1.getGuardianEmail2());
                 }
             }
+            // handles exception of type IO exception
         }catch (IOException e){
+            //print the exception stack trace.
             e.printStackTrace();
         }
         return student;
